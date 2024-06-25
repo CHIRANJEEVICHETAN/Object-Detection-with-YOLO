@@ -17,11 +17,13 @@
 11. [Usage](#usage)
 12. [Output Explanation](#output-explanation)
 13. [Applications](#applications)
-14. [Future Scope](#future-scope)
-15. [Contributing](#contributing)
-16. [License](#license)
-17. [Summary](#summary)
-18. [Results](#results-snapshots)
+14. [Improved Features](#improved-features)
+15. [Future Scope](#future-scope)
+16. [Contributing](#contributing)
+17. [License](#license)
+18. [Summary](#summary)
+19. [Results](#results-snapshots)
+20. [References](#references)
 
 ## Introduction
 
@@ -230,6 +232,15 @@ The techniques and processes described in this project have several practical ap
 - **Surveillance and Security**: Monitoring and detecting objects in security footage.
 - **Retail**: Managing stock and detecting product placement on shelves.
 
+## Improved Features
+
+- **YOLOv8**: Implemented the YOLOv8 model for image recognition, enhancing accuracy and performance in object detection tasks.
+- **Real-Time Object Detection**: Integrated live video object detection, enabling the system to detect objects in real-time.
+- **Flask Integration**: Compiled the entire project into a Flask application for seamless frontend and backend integration.
+- **Drag and Drop Features**: Added drag and drop functionality for image uploads, providing a user-friendly experience.
+- **Responsiveness**: Ensured the web application is responsive for seamless viewing on mobile devices.
+- **Live Video**: Enabled object detection in live video feeds from external mobile devices using webcam IP addresses.
+
 ## Contributing
 
 Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) first. You can submit any bugs or feature requests as an issue, or make a pull request with your changes.
@@ -245,3 +256,44 @@ This project implements a web application for real-time object detection using t
 ## Results (Snapshots)
 
 ![image](https://user-images.githubusercontent.com/102181527/209464438-5b)
+
+## References
+
+1. **YOLOv8 Documentation**:
+
+   - [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
+   - [YOLOv8 Documentation](https://docs.ultralytics.com/)
+
+2. **PyTorch**:
+
+   - [PyTorch Official Website](https://pytorch.org/)
+   - [PyTorch Documentation](https://pytorch.org/docs/stable/index.html)
+
+3. **OpenCV**:
+
+   - [OpenCV Official Website](https://opencv.org/)
+   - [OpenCV Documentation](https://docs.opencv.org/4.x/)
+
+4. **Flask**:
+
+   - [Flask Official Website](https://flask.palletsprojects.com/)
+   - [Flask Documentation](https://flask.palletsprojects.com/en/2.0.x/)
+
+5. **LabelImg**:
+
+   - [LabelImg GitHub Repository](https://github.com/tzutalin/labelImg)
+   - [LabelImg Installation and Usage](https://github.com/tzutalin/labelImg#installation)
+
+6. **Docker**:
+
+   - [Docker Official Website](https://www.docker.com/)
+   - [Docker Documentation](https://docs.docker.com/)
+
+7. **Python**:
+
+   - [Python Official Website](https://www.python.org/)
+   - [Python Documentation](https://docs.python.org/3/)
+
+8. **Choreo.dev**:
+   - [Choreo.dev Official Website](https://choreo.dev/)
+   - [Choreo.dev Documentation](https://wso2.com/choreo/docs/)
