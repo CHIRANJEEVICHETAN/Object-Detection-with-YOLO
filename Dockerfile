@@ -24,8 +24,8 @@ RUN adduser --disabled-password --gecos '' --uid 10001 appuser
 # Give ownership of the /app directory to the appuser
 RUN chown -R appuser:appuser /app
 
-# Change to the appuser
-USER appuser
+# Set the user ID to 10001
+USER 10001
 
 # Create and activate a virtual environment
 RUN python -m venv venv
