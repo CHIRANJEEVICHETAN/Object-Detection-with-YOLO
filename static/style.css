@@ -1,0 +1,151 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    margin: 20px;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  form {
+    gap: 8px;
+  }
+
+  input[type="file"],
+  input[type="text"],
+  button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .result img {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+}
+
+/* Specific adjustments for elements */
+#loading-spinner {
+  font-size: 24px;
+  font-weight: bold;
+  color: #555;
+  margin-top: 20px;
+}
+
+#progress-bar-container {
+  width: 100%;
+  background-color: #f3f3f3;
+  margin-top: 20px;
+}
+
+#progress-bar {
+  width: 0%;
+  height: 30px;
+  background-color: #4caf50;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input[type="file"],
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.option-container {
+  margin-bottom: 30px;
+}
+
+.result img {
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: auto;
+}
+
+.box-count {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+#result,
+#video-feed {
+  margin-top: 20px;
+}
+
+/* Drag and Drop Styles */
+#drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  cursor: pointer;
+}
+
+#drop-area.highlight {
+  border-color: purple;
+}
+
+#drop-area p {
+  margin: 0;
+  font-size: 18px;
+}

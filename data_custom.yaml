@@ -1,0 +1,4 @@
+train: D:\College\EduCollaborators\Calculation-of-Object-Dimensions\objects\box\train
+val: D:\College\EduCollaborators\Calculation-of-Object-Dimensions\objects\box\val
+nc: 1
+names: ["box"]

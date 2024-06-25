@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Real-Time Object Detection with YOLOv8: Image and Video Processing Web
+      Application
+    </title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Real-Time Object Detection with YOLOv8: Image and Video Processing Web
+        Application
+      </h1>
+      <div class="option-container">
+        <h2>Detect Objects in Image</h2>
+        <div id="drop-area">
+          <form id="image-form" enctype="multipart/form-data">
+            <p>Drag and drop an image file here or click to select</p>
+            <input type="file" name="image" accept="image/*" required />
+            <button type="submit">Detect</button>
+          </form>
+        </div>
+        <div id="progress-bar-container" style="display: none">
+          <div id="progress-bar" style="width: 0%"></div>
+        </div>
+        <div id="loading-spinner" style="display: none">
+          Processing image...
+        </div>
+
+        <div id="image-result" class="result"></div>
+        <div id="box-count" class="box-count"></div>
+      </div>
+      <div class="option-container">
+        <h2>Detect Objects in Video</h2>
+        <form action="/detect_video" method="get">
+          <label for="video_url">Video URL:</label>
+          <input
+            type="text"
+            id="video_url"
+            name="video_url"
+            placeholder="http://your-video-url"
+            required
+          />
+          <button type="submit">Detect</button>
+        </form>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("image-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          document.getElementById("loading-spinner").style.display = "block";
+          document.getElementById("progress-bar-container").style.display =
+            "block";
+          document.getElementById("progress-bar").style.width = "0%";
+
+          const formData = new FormData(e.target);
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", "/detect_image", true);
+
+          xhr.upload.onprogress = (event) => {
+            if (event.lengthComputable) {
+              const percentComplete = (event.loaded / event.total) * 100;
+              document.getElementById("progress-bar").style.width =
+                percentComplete + "%";
+              document.getElementById("progress-bar").innerText =
+                Math.round(percentComplete) + "%";
+            }
+          };
+
+          xhr.onload = () => {
+            document.getElementById("loading-spinner").style.display = "none";
+            document.getElementById("progress-bar-container").style.display =
+              "none";
+            const result = JSON.parse(xhr.responseText);
+            const imgElement = document.createElement("img");
+            imgElement.src = "data:image/jpeg;base64," + result.image;
+            document.getElementById("image-result").innerHTML = "";
+            document.getElementById("image-result").appendChild(imgElement);
+            document.getElementById("box-count").innerHTML =
+              "Number of detected Objects: " + result.num_boxes;
+          };
+
+          xhr.onerror = () => {
+            document.getElementById("loading-spinner").style.display = "none";
+            document.getElementById("progress-bar-container").style.display =
+              "none";
+            alert("Error processing image. Please try again.");
+          };
+
+          xhr.send(formData);
+        });
+
+      const dropArea = document.getElementById("drop-area");
+      const form = document.getElementById("image-form");
+      const fileInput = form.querySelector('input[type="file"]');
+
+      // Prevent default drag behaviors
+      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+      });
+
+      // Highlight drop area when item is dragged over it
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropArea.addEventListener(
+          eventName,
+          () => dropArea.classList.add("highlight"),
+          false
+        );
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropArea.addEventListener(
+          eventName,
+          () => dropArea.classList.remove("highlight"),
+          false
+        );
+      });
+
+      // Handle dropped files
+      dropArea.addEventListener("drop", handleDrop, false);
+
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+        handleFiles(files);
+      }
+
+      function handleFiles(files) {
+        form.dispatchEvent(new Event("submit"));
+      }
+    </script>
+  </body>
+</html>
