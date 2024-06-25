@@ -19,7 +19,7 @@ RUN apt-get update \
 WORKDIR /app
 
 # Create and activate a non-root user
-RUN adduser --disabled-password --gecos '' appuser
+RUN adduser --disabled-password --gecos '' --uid 10001 appuser
 
 # Give ownership of the /app directory to the appuser
 RUN chown -R appuser:appuser /app
