@@ -18,6 +18,15 @@ RUN apt-get update \
 # Set working directory
 WORKDIR /app
 
+# Create and activate a non-root user
+RUN adduser --disabled-password --gecos '' appuser
+
+# Give ownership of the /app directory to the appuser
+RUN chown -R appuser:appuser /app
+
+# Change to the appuser
+USER appuser
+
 # Create and activate a virtual environment
 RUN python -m venv venv
 ENV PATH="/app/venv/bin:$PATH"
@@ -25,7 +34,6 @@ ENV PATH="/app/venv/bin:$PATH"
 # Install Python dependencies
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt \
-    # Handle specific versions or constraints
     && pip install --no-cache-dir --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 \
     && pip install gunicorn
 
