@@ -40,8 +40,8 @@ RUN pip install --no-cache-dir -r requirements.txt \
 # Copy the Flask app
 COPY . .
 
-# Expose port 80
-EXPOSE 80
+# Expose port 8000
+EXPOSE 8000
 
 # Command to run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]

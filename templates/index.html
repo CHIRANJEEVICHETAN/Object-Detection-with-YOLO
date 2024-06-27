@@ -3,146 +3,189 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      Real-Time Object Detection with YOLOv8: Image and Video Processing Web
-      Application
-    </title>
+    <title>Object Detection</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .result img {
+        max-width: 100%;
+      }
+      .option-container {
+        margin-top: 20px;
+      }
+      .result {
+        margin-top: 20px;
+      }
+      /* Loading spinner styles */
+      #loading-spinner {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+      }
+      #loading-spinner img {
+        width: 50px;
+        height: 50px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <h1>
-        Real-Time Object Detection with YOLOv8: Image and Video Processing Web
-        Application
-      </h1>
+      <h1>Object Dimension Detection with YOLOv8</h1>
       <div class="option-container">
         <h2>Detect Objects in Image</h2>
-        <div id="drop-area">
-          <form id="image-form" enctype="multipart/form-data">
-            <p>Drag and drop an image file here or click to select</p>
-            <input type="file" name="image" accept="image/*" required />
-            <button type="submit">Detect</button>
-          </form>
-        </div>
-        <div id="progress-bar-container" style="display: none">
-          <div id="progress-bar" style="width: 0%"></div>
-        </div>
-        <div id="loading-spinner" style="display: none">
-          Processing image...
-        </div>
-
-        <div id="image-result" class="result"></div>
-        <div id="box-count" class="box-count"></div>
-      </div>
-      <div class="option-container">
-        <h2>Detect Objects in Video</h2>
-        <form action="/detect_video" method="get">
-          <label for="video_url">Video URL:</label>
+        <form id="image-form">
+          <label for="image">Select Image:</label>
           <input
-            type="text"
-            id="video_url"
-            name="video_url"
-            placeholder="http://your-video-url"
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
             required
           />
+          <label for="width">Width of the left-most object (in inches):</label>
+          <input type="number" step="0.01" name="width" required />
           <button type="submit">Detect</button>
         </form>
       </div>
+      <div id="loading-spinner">
+        <img src="spinner.gif" alt="Loading..." />
+        <p>Processing...</p>
+      </div>
+      <div class="result">
+        <h2>Detection Result</h2>
+        <div id="result-images"></div>
+        <div id="dimensions-list"></div>
+      </div>
+      <div class="option-container">
+        <h2>Detect Objects in Video Stream</h2>
+        <form id="video-form">
+          <label for="video-url">Video Stream URL:</label>
+          <input
+            type="text"
+            id="video-url"
+            name="video-url"
+            placeholder="Enter video stream URL"
+            required
+          />
+          <label for="video-width"
+            >Width of the left-most object (in inches):</label
+          >
+          <input type="number" step="0.01" name="video-width" required />
+          <button type="submit">Detect</button>
+        </form>
+      </div>
+      <div id="loading-spinner">
+        <img src="spinner.gif" alt="Loading..." />
+        <p>Processing...</p>
+      </div>
+      <div class="result">
+        <h2>Video Stream</h2>
+        <div id="video-feed"></div>
+        <center><button id="view-dimensions">View Dimensions</button></center>
+      </div>
     </div>
+
     <script>
+      function showSpinner() {
+        document.getElementById("loading-spinner").style.display = "block";
+      }
+
+      function hideSpinner() {
+        document.getElementById("loading-spinner").style.display = "none";
+      }
+
       document
         .getElementById("image-form")
-        .addEventListener("submit", async (e) => {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
-          document.getElementById("loading-spinner").style.display = "block";
-          document.getElementById("progress-bar-container").style.display =
-            "block";
-          document.getElementById("progress-bar").style.width = "0%";
+          showSpinner();
+          const formData = new FormData(this);
+          const response = await fetch("/detect_image", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await response.json();
+          hideSpinner();
+          const resultImages = document.getElementById("result-images");
+          const dimensionsList = document.getElementById("dimensions-list");
+          resultImages.innerHTML = "";
+          dimensionsList.innerHTML = "";
 
-          const formData = new FormData(e.target);
-          const xhr = new XMLHttpRequest();
-          xhr.open("POST", "/detect_image", true);
+          if (data.images) {
+            data.images.forEach((image, index) => {
+              const imgElement = document.createElement("img");
+              imgElement.src = "data:image/jpeg;base64," + image;
+              resultImages.appendChild(imgElement);
 
-          xhr.upload.onprogress = (event) => {
-            if (event.lengthComputable) {
-              const percentComplete = (event.loaded / event.total) * 100;
-              document.getElementById("progress-bar").style.width =
-                percentComplete + "%";
-              document.getElementById("progress-bar").innerText =
-                Math.round(percentComplete) + "%";
-            }
-          };
-
-          xhr.onload = () => {
-            document.getElementById("loading-spinner").style.display = "none";
-            document.getElementById("progress-bar-container").style.display =
-              "none";
-            const result = JSON.parse(xhr.responseText);
-            const imgElement = document.createElement("img");
-            imgElement.src = "data:image/jpeg;base64," + result.image;
-            document.getElementById("image-result").innerHTML = "";
-            document.getElementById("image-result").appendChild(imgElement);
-            document.getElementById("box-count").innerHTML =
-              "Number of detected Objects: " + result.num_boxes;
-          };
-
-          xhr.onerror = () => {
-            document.getElementById("loading-spinner").style.display = "none";
-            document.getElementById("progress-bar-container").style.display =
-              "none";
-            alert("Error processing image. Please try again.");
-          };
-
-          xhr.send(formData);
+              const dim = data.dimensions_list[index];
+              const dimElement = document.createElement("p");
+              dimElement.textContent = `${
+                dim.Object
+              }: ${dim.Dimension_A.toFixed(2)} in x ${dim.Dimension_B.toFixed(
+                2
+              )} in`;
+              dimensionsList.appendChild(dimElement);
+            });
+          } else {
+            resultImages.textContent = "No objects detected";
+          }
         });
 
-      const dropArea = document.getElementById("drop-area");
-      const form = document.getElementById("image-form");
-      const fileInput = form.querySelector('input[type="file"]');
+      document
+        .getElementById("video-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          showSpinner();
+          const videoUrl = document.getElementById("video-url").value;
+          const width = document.querySelector(
+            'input[name="video-width"]'
+          ).value;
+          const videoFeed = document.getElementById("video-feed");
+          videoFeed.innerHTML = `<img src="/video_feed?video_url=${encodeURIComponent(
+            videoUrl
+          )}&width=${encodeURIComponent(
+            width
+          )}" alt="Video feed" onload="hideSpinner()" />`;
+        });
 
-      // Prevent default drag behaviors
-      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-        dropArea.addEventListener(eventName, preventDefaults, false);
-      });
-
-      // Highlight drop area when item is dragged over it
-      ["dragenter", "dragover"].forEach((eventName) => {
-        dropArea.addEventListener(
-          eventName,
-          () => dropArea.classList.add("highlight"),
-          false
-        );
-      });
-
-      ["dragleave", "drop"].forEach((eventName) => {
-        dropArea.addEventListener(
-          eventName,
-          () => dropArea.classList.remove("highlight"),
-          false
-        );
-      });
-
-      // Handle dropped files
-      dropArea.addEventListener("drop", handleDrop, false);
-
-      function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
-      function handleDrop(e) {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        fileInput.files = files;
-        handleFiles(files);
-      }
-
-      function handleFiles(files) {
-        form.dispatchEvent(new Event("submit"));
-      }
+      document
+        .getElementById("view-dimensions")
+        .addEventListener("click", function () {
+          fetch("/dimensions_list")
+            .then((response) => response.json())
+            .then((data) => {
+              const dimensionsWindow = window.open("", "_blank");
+              dimensionsWindow.document.write(
+                "<html><head><title>Object Dimensions</title></head><body>"
+              );
+              dimensionsWindow.document.write("<h1>Object Dimensions</h1>");
+              dimensionsWindow.document.write("<ul>");
+              data.forEach((dim) => {
+                dimensionsWindow.document.write(
+                  `<li>${dim.Object}: ${dim.Dimension_A.toFixed(
+                    2
+                  )} in x ${dim.Dimension_B.toFixed(2)} in</li>`
+                );
+              });
+              dimensionsWindow.document.write("</ul>");
+              dimensionsWindow.document.write("</body></html>");
+              dimensionsWindow.document.close();
+            })
+            .catch((error) => {
+              console.error("Error fetching dimensions list:", error);
+              alert("Failed to fetch dimensions list. Please try again.");
+            });
+        });
     </script>
   </body>
 </html>
