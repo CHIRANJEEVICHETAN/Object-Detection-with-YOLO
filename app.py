@@ -82,8 +82,8 @@ def detect_image():
         objects, _ = measure_objects(image_with_boxes, width, pixelsPerMetric=None)
         objects_data = [{'index': i, 'image': obj[0], 'dimA': obj[1], 'dimB': obj[2]} for i, obj in enumerate(objects)]
         
-        logging.debug(f"Objects Data: {objects_data}")
-        logging.debug(f"Labels: {labels}")
+        # logging.debug(f"Objects Data: {objects_data}")
+        # logging.debug(f"Labels: {labels}")
         
         if objects_data:
             encoded_images = [base64.b64encode(cv2.imencode('.jpg', obj['image'])[1]).decode('utf-8') for obj in objects_data]
@@ -172,8 +172,8 @@ def stream_video(video_url, width):
         objects, pixelsPerMetric = measure_objects(frame_with_boxes, width, pixelsPerMetric)
         objects_data = [{'index': i, 'contour': obj[3], 'dimA': obj[1], 'dimB': obj[2]} for i, obj in enumerate(objects)]
         
-        logging.debug(f"Objects Data: {objects_data}")
-        logging.debug(f"Labels: {labels}")
+        # logging.debug(f"Objects Data: {objects_data}")
+        # logging.debug(f"Labels: {labels}")
 
         try:
             dimensions_list = get_dimensions_list(objects_data, labels)
