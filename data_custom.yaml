@@ -1,0 +1,24 @@
+train: D:/College/EduCollaborators/Object-Detection-with-YOLO/Datasets/Objects/train
+val: D:/College/EduCollaborators/Object-Detection-with-YOLO/Datasets/Objects/val
+nc: 18
+names:
+  [
+    "Biscuit",
+    "Book",
+    "Bottle",
+    "Bowl",
+    "Calculator",
+    "Charger",
+    "Hair Clip",
+    "Keyboard",
+    "Mouse",
+    "Paint Box",
+    "Pen",
+    "Perfume",
+    "Phone",
+    "Earpods",
+    "Remote",
+    "Specticals",
+    "Steel Box",
+    "Watch",
+  ]

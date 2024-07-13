@@ -95,29 +95,30 @@ Make sure you have the following installed:
 Create a `data_custom.yaml` file with the following configuration:
 
 ```yaml
-train: /path/to/your/project/objects/box/train
-val: /path/to/your/project/objects/box/val
+train: /path/to/your/project/Datasets/Objects/train
+val: /path/to/your/project/Datasets/Objects/val
 nc: 1
 names: ["box"]
 ```
 
 ## File Structure
 
-- `objects/`
-  - `box/`
+- `Datasets/`
+  - `Objects/`
     - `train/`
       - `images/`
       - `labels/`
     - `val/`
       - `images/`
       - `labels/`
-  - `Result_Images/`
 - `runs/`
   - `detect/`
     - `predict/`
     - `train/`
 - `static/`
+  - `uploads/`
   - `style.css`
+  - `spinner.gif`
 - `templates/`
   - `index.html`
   - `detect_video.html`
@@ -125,7 +126,6 @@ names: ["box"]
 - `data_custom.yaml`
 - `requirements.txt`
 - `yolov8m.pt`
-- `detect_boxes.py`
 - `Dockerfile`
 - `Git_Cloning.md`
 - `README.md`
