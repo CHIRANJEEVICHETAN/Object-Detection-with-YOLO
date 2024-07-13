@@ -1,6 +1,6 @@
 train: D:/College/EduCollaborators/Object-Detection-with-YOLO/Datasets/Objects/train
 val: D:/College/EduCollaborators/Object-Detection-with-YOLO/Datasets/Objects/val
-nc: 18
+nc: 19
 names:
   [
     "Biscuit",
@@ -8,6 +8,7 @@ names:
     "Bottle",
     "Bowl",
     "Calculator",
+    "Matchbox",
     "Charger",
     "Hair Clip",
     "Keyboard",
