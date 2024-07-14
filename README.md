@@ -255,7 +255,7 @@ This project implements a web application for real-time object detection using t
 
 ## Results (Snapshots)
 
-![image](https://user-images.githubusercontent.com/102181527/209464438-5b)
+![image](https://github.com/CHIRANJEEVICHETAN/Object-Detection-with-YOLO/blob/version-1/static/uploads/MainPage.png)
 
 ## References
 
