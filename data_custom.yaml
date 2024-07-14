@@ -1,5 +1,5 @@
-train: D:/College/EduCollaborators/Object-Detection-with-YOLO/Datasets/Objects/train
-val: D:/College/EduCollaborators/Object-Detection-with-YOLO/Datasets/Objects/val
+train: /Users/marevana/Desktop/chetan/env/Object-Detection-with-YOLO/Datasets/Objects/train
+val: /Users/marevana/Desktop/chetan/env/Object-Detection-with-YOLO/Datasets/Objects/val
 nc: 19
 names:
   [

@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 # Load the YOLOv8 model
 # model = YOLO('yolov8m_custom.pt')
-model = YOLO('yolov8l.pt')
+model = YOLO('yolov8m.pt')
 
 def midpoint(ptA, ptB):
     return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)

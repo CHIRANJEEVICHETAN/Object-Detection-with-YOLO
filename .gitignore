@@ -1,0 +1,30 @@
+# Byte-compiled / optimized Python files
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# Output files
+*.swp
+*~
+*.bak
+
+# Virtual environment
+venv/
+
+# MacCode
+.vscode
