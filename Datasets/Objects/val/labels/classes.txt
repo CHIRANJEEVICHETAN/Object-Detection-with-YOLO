@@ -1,7 +1,12 @@
+Book
+Bottle
+Bowl
+Matchbox
+Calculator
 Charger
 Hair Clip
-Keyboard
 Mouse
+Keyboard
 Paint Box
 Pen
 Perfume
@@ -11,4 +16,3 @@ Remote
 Specticals
 Steel Box
 Watch
-Biscuit
